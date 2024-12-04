@@ -15,16 +15,24 @@ public class Day2 {
         int safeReports = 0;
         for (String report : fileData) {
             String[] arr = report.split(" ");
-            boolean safe = true;
+            ArrayList<Integer> differenceList = new ArrayList<Integer>();
             for (int i = 1; i < arr.length; i++) {
-                safe = true;
-                if (Integer.parseInt(arr[i]) > Integer.parseInt(arr[i - 1]) && (Integer.parseInt(arr[i]) < Integer.parseInt(arr[i - 1])  && (Math.abs((Integer.parseInt(arr[i]) - Integer.parseInt(arr[i - 1]))) <= 3))) {
-                    safe = false;
-                }
+                differenceList.add(Integer.parseInt(arr[i]) - Integer.parseInt(arr[i - 1]));
             }
 
-            if (safe) {
-                safeReports++;
+            int incNums = 0;
+            int decNums = 0;
+            for (int difference: differenceList) {
+                if (difference > 0 && difference <= 3) {
+                    incNums++;
+                } else if (difference < 0 && Math.abs(difference) <= 3) {
+                    decNums++;
+                }
+
+                // If the amt of inc nums or the amt of dec nums equals the amount of nums in the list, then the report is SAFE!!!
+                if (incNums == differenceList.size() || decNums == differenceList.size()) {
+                    safeReports++;
+                }
             }
         }
         System.out.println(safeReports);
