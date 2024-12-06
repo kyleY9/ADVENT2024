@@ -5,9 +5,10 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Day2 {
+
     public static void main(String[] args) {
 
-        ArrayList<String> fileData = getFileData("src/Day2Input.txt");
+        ArrayList<String> fileData = getFileData("src/Sample.txt");
         System.out.println(fileData);
 
         // Code goes here!
@@ -22,17 +23,59 @@ public class Day2 {
 
             int incNums = 0;
             int decNums = 0;
-            for (int difference: differenceList) {
-                if (difference > 0 && difference <= 3) {
+            boolean strictInc = false;
+            boolean strictDec= false;
+            int numExcused = 0; // max one
+
+            for (int i = 0; i < differenceList.size(); i++) {
+                if (differenceList.get(i) > 0 && differenceList.get(i) <= 3) {
                     incNums++;
-                } else if (difference < 0 && Math.abs(difference) <= 3) {
+                } else if (differenceList.get(i) < 0 && Math.abs(differenceList.get(i)) <= 3) {
                     decNums++;
                 }
+            }
 
-                // If the amt of inc nums or the amt of dec nums equals the amount of nums in the list, then the report is SAFE!!!
-                if (incNums == differenceList.size() || decNums == differenceList.size()) {
-                    safeReports++;
+            System.out.print("Difference List Size: "  + differenceList.size() + " ");
+
+            if (incNums == differenceList.size()) {
+                strictInc = true;
+            } else if (decNums == differenceList.size()) {
+                strictDec = true;
+            }
+
+            for (int i = 0; i < differenceList.size(); i++) {
+                if (strictInc) {
+                    if ((differenceList.get(i) < 1 || differenceList.get(i) > 3) && numExcused == 0) {
+                        differenceList.remove(i);
+                        numExcused++;
+                        i--;
+                    }
+                } else if (strictDec) {
+                    if ((differenceList.get(i) > 1 || differenceList.get(i) > 3) && numExcused == 0) {
+                        differenceList.remove(i);
+                        numExcused++;
+                        i--;
+                    }
                 }
+            }
+
+            System.out.print("Difference List Size: "  + differenceList.size() + " ");
+            incNums = 0;
+            decNums = 0;
+
+            for (int i = 0; i < differenceList.size(); i++) {
+                if (differenceList.get(i) > 0 && differenceList.get(i) <= 3) {
+                    incNums++;
+                } else if (differenceList.get(i) < 0 && Math.abs(differenceList.get(i)) <= 3) {
+                    decNums++;
+                }
+            }
+
+            System.out.print("Inc Nums = " + incNums + " ");
+            System.out.print("Dec Nums = " + decNums + "\n");
+            // If the amt of inc nums or the amt of dec nums equals the amount of nums in the list, then the report is SAFE!!!
+            if (incNums >= differenceList.size() - 1  || decNums >= differenceList.size() - 1) {
+                safeReports++;
             }
         }
         System.out.println(safeReports);
@@ -56,3 +99,10 @@ public class Day2 {
         }
     }
 }
+
+
+/*
+fun 1:
+[0,1,2,3, 5, 1, 5]
+fun 2: [0,1,2,3,-1,5]
+ */
