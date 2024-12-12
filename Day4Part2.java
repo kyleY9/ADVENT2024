@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class Day4Part2 {
     public static void main(String[] args) {
-        ArrayList<String> fileData = getFileData("src/Sample.txt");
+        ArrayList<String> fileData = getFileData("src/Day4Input.txt");
 
         int rows = fileData.size();
         int columns = fileData.get(0).length();
@@ -16,90 +16,62 @@ public class Day4Part2 {
                 grid[r][c] = fileData.get(r).substring(c, c+1);
             }
         }
-        System.out.println("Num Hor: " + horizontal(grid));
-        System.out.println("Num Ver: " + vertical(grid));
-        System.out.println("Num Diagonals: " + diagonal(grid));
-        System.out.println("Total Matches: " + (horizontal(grid) + vertical(grid) + diagonal(grid)));
+        System.out.println("Total Matches: " + (diagonal(grid)));
 
         // "grid" represents a 2D array of Strings built from the input file
 
-    }
-
-    public static int horizontal(String[][] grid) {
-        int matches = 0;
-        for (int r = 0; r < grid.length; r++) {
-            for (int c = 0; c < grid[0].length; c++) {
-                if (grid[r][c].equals("X")) {
-                    if (c + 3 < grid[0].length && grid[r][c + 1].equals("M")) { // horizontal right
-                        if (grid[r][c + 2].equals("A")) {
-                            if (grid[r][c + 3].equals("S")) {
-                                matches++;
-                            }
-                        }
-                    }
-                    if (c - 3 >= 0 && grid[r][c - 1].equals("M")) { // horizontal left
-                        if (grid[r][c - 2].equals("A")) {
-                            if (grid[r][c - 3].equals("S")) {
-                                matches++;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return matches;
-    }
-
-    public static int vertical(String[][] grid) {
-        int matches = 0;
-        for (int r = 0; r < grid.length; r++) {
-            for (int c = 0; c < grid[0].length; c++) {
-                if (grid[r][c].equals("X")) {
-                    if (r + 3 < grid.length && grid[r + 1][c].equals("M")) { // vertical down
-                        if (grid[r + 2][c].equals("A")) {
-                            if (grid[r + 3][c].equals("S")) {
-                                matches++;
-                            }
-                        }
-                    }
-                    if (r - 3 >= 0 && grid[r - 1][c].equals("M")) { // vertical up
-                        if (grid[r - 2][c].equals("A")) {
-                            if (grid[r - 3][c].equals("S")) {
-                                matches++;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return matches;
     }
 
     public static int diagonal(String[][] grid) {
         int matches = 0;
         for (int r = 0; r < grid.length; r++) {
             for (int c = 0; c < grid[0].length; c++) {
-                if (grid[r][c].equals("M") ) {
-                    if (r + 2 < grid.length && c + 2 < grid[0].length && grid[r + 1][c + 1].equals("A")) {  // downward slant right
-                        if (grid[r + 2][c + 2].equals("S")) {
-                            matches++;
+                if (grid[r][c].equals("A") ) {
+                    if (r - 1 >= 0 && c - 1 >= 0 && grid[r - 1][c - 1].equals("M")) {
+                        if (r + 1 < grid.length && c + 1 < grid[0].length && grid[r + 1][c + 1].equals("S")) {
+                            if (grid[r - 1][c + 1].equals("M")) {
+                                if (grid[r + 1][c - 1].equals("S")) {
+                                    matches++;
+                                }
+                            } else if (grid[r - 1][c + 1].equals("S")) {
+                                if (grid[r + 1][c - 1].equals("M")) {
+                                    matches++;
+                                }
+                            }
+                        }
+                    } else if (r - 1 >= 0 && c - 1 >= 0 && grid[r - 1][c - 1].equals("S")) {
+                        if (r + 1 < grid.length && c + 1 < grid[0].length && grid[r + 1][c + 1].equals("M")) {
+                            if (grid[r - 1][c + 1].equals("M")) {
+                                if (grid[r + 1][c - 1].equals("S")) {
+                                    matches++;
+                                }
+                            } else if (grid[r - 1][c + 1].equals("S")) {
+                                if (grid[r + 1][c - 1].equals("M")) {
+                                    matches++;
+                                }
+                            }
                         }
                     }
-                    if (r + 2 < grid.length && c - 2 >= 0 && grid[r + 1][c - 1].equals("A")) {  // downward slant left
-                        if (grid[r + 2][c - 2].equals("S")) {
-                            matches++;
-                        }
-                    }
-                    if (r - 2 >= 0 && c + 2 < grid[0].length && grid[r - 1][c + 1].equals("A")) {  // upward slant right
-                        if (grid[r - 2][c + 2].equals("S")) {
-                            matches++;
-                        }
-                    }
-                    if (r - 2 >= 0 && c - 2 >= 0 && grid[r - 1][c - 1].equals("A")) {  // upward slant left
-                        if (grid[r - 2][c - 2].equals("S")) {
-                            matches++;
-                        }
-                    }
+
+
+
+
+
+//                    if (r + 2 < grid.length && c - 2 >= 0 && grid[r + 1][c - 1].equals("A")) {  // downward slant left
+//                        if (grid[r + 2][c - 2].equals("S")) {
+//                            matches++;
+//                        }
+//                    }
+//                    if (r - 2 >= 0 && c + 2 < grid[0].length && grid[r - 1][c + 1].equals("A")) {  // upward slant right
+//                        if (grid[r - 2][c + 2].equals("S")) {
+//                            matches++;
+//                        }
+//                    }
+//                    if (r - 2 >= 0 && c - 2 >= 0 && grid[r - 1][c - 1].equals("A")) {  // upward slant left
+//                        if (grid[r - 2][c - 2].equals("S")) {
+//                            matches++;
+//                        }
+//                    }
                 }
             }
         }
