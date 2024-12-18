@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class Day5 {
     public static void main(String[] args) {
-        ArrayList<String> fileData = getFileData("src/Sample.txt");
+        ArrayList<String> fileData = getFileData("src/Day5Input.txt");
         int total = 0;
         ArrayList<String> rules = new ArrayList<>();
         ArrayList<String> lists = new ArrayList<>();
@@ -18,11 +18,9 @@ public class Day5 {
             }
         }
 
-        System.out.println(rules);
-        System.out.println(lists);
-
         for (String list : lists) {
             ArrayList<Integer> myList = new ArrayList<>();
+            boolean correct = true;
             for (String rule : rules) {
                 String numOne = rule.split("\\|")[0];
                 String numTwo = rule.split("\\|")[1];
@@ -36,15 +34,14 @@ public class Day5 {
                     int index1 = myList.indexOf(Integer.parseInt(numOne));
                     int index2 = myList.indexOf(Integer.parseInt(numTwo));
 
-                    if (index1 < index2) {
-                        total++;
+                    if (index1 > index2) {
+                        correct = false;
                     }
-
                 }
             }
-//            System.out.println(myList);
-//            System.out.println(myList.get(myList.size() / 2));
-//            total += myList.get(myList.size() / 2);
+            if (correct) {
+                total += myList.get(myList.size() / 2);
+            }
         }
         System.out.println(total);
     }
